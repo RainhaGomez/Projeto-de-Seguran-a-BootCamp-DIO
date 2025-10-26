@@ -1,11 +1,12 @@
-Laboratório:
-1 VM Kali
-1 VM Metasploitable 2
-Observação: É de suma importancia que as Redes estejam em Placa de Rede exclusiva do Hospedeiro (host-only), devido a vúlnerabilidade do Metasploit não é recomendado estar na sua rede local.
+# Laboratório:
+# 1 VM Kali
+# 1 VM Metasploitable 2
+# Observação: É de suma importancia que as Redes estejam em Placa de Rede exclusiva do Hospedeiro (host-only), devido a vúlnerabilidade do Metasploit não é recomendado estar na sua rede local.
 
-Simulando um Ataque de Brute Force de Senhas com Medusa e Kali Linux
-Com ambas as Vm's ligadas.
-Comandos no Kali Linux
+# Simulando um Ataque de Brute Force de Senhas com Medusa e Kali Linux
+# Com ambas as Vm's ligadas.
+
+# Comandos no Kali Linux
 
 1 Ping (IP DO METASPLOITABLE2)
 2 map -sV -p 21,22,80,445,139 IP DO METASPLOITABLE2 #Varreduras de postas especificas
